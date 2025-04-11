@@ -17,6 +17,11 @@ jobs:
           - uses: webfactory/ssh-agent@v0.5.3
             with:
                 ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          - name: Fix file permissions
+            run: |
+              sudo chown -R $USER:$USER $GITHUB_WORKSPACE
+              chmod -R u+rwX $GITHUB_WORKSPACE
+
           - name: Run full test
             env:
               GIT_SSH_COMMAND: "ssh -o StrictHostKeyChecking=no"
